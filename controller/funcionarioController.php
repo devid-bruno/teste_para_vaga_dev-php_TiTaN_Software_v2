@@ -3,6 +3,7 @@ session_start();
 include_once '../db.php';
 include_once '../model/Funcionario.php';
 include_once '../model/Empresa.php';
+require('../libs/fpdf/fpdf.php');
 
 $database = new Database();
 $db = $database->getConnection();
@@ -43,6 +44,9 @@ class funcionarioController {
         $funcionario->cpf = htmlspecialchars($_POST['cpf'] ?? '');
         $funcionario->rg = htmlspecialchars($_POST['rg'] ?? '');
         $funcionario->email = htmlspecialchars($_POST['email'] ?? '');
+        $funcionario->data_cadastro = htmlspecialchars($_POST['data_cadastro'] ?? '');
+        $funcionario->salario = htmlspecialchars($_POST['salario'] ?? '');
+        $funcionario->bonificacao = htmlspecialchars($_POST['bonificacao'] ?? '');
         $funcionario->id_empresa = htmlspecialchars($_POST['id_empresa'] ?? '');
 
         if ($funcionario->insert()) {
@@ -80,6 +84,9 @@ class funcionarioController {
         $funcionario->cpf = htmlspecialchars($_POST['cpf'] ?? '');
         $funcionario->rg = htmlspecialchars($_POST['rg'] ?? '');
         $funcionario->email = htmlspecialchars($_POST['email'] ?? '');
+        $funcionario->data_cadastro = htmlspecialchars($_POST['data_cadastro'] ?? '');
+        $funcionario->salario = htmlspecialchars($_POST['salario'] ?? '');
+        $funcionario->bonificacao = htmlspecialchars($_POST['bonificacao'] ?? '');
         $funcionario->id_empresa = htmlspecialchars($_POST['id_empresa'] ?? '');
 
         if ($funcionario->update()) {
@@ -104,6 +111,55 @@ class funcionarioController {
             include '../view/funcionario/edit.php';
         }
     }
+
+    public function exportpdf(){
+    global $db;
+    $funcionario = new Funcionario($db);
+    $stmt = $funcionario->read();
+    $funcionarios = [];
+    if ($stmt) {
+        $funcionarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    $pdf = new FPDF();
+    $pdf->AddPage();
+    $pdf->SetFont('Arial', 'B', 12);
+
+    //altura e largura pdf
+    $colWidths = [50, 35, 30, 65, 19];
+    $header = ['Nome', 'CPF', 'RG', 'Email', 'Empresa'];
+
+    // estiliando o pdf
+    $pdf->SetFillColor(200, 220, 255);
+    $pdf->SetTextColor(0);
+    $pdf->SetDrawColor(50, 50, 100);
+    $pdf->SetLineWidth(.3);
+
+    for ($i = 0; $i < count($header); $i++) {
+        $pdf->Cell($colWidths[$i], 7, $header[$i], 1, 0, 'C', true);
+    }
+    $pdf->Ln();
+
+    //
+    $pdf->SetFont('Arial', '', 10);
+    $pdf->SetFillColor(240, 240, 240);
+    $pdf->SetTextColor(0);
+    $fill = false;
+
+    foreach ($funcionarios as $funcionario) {
+        $pdf->Cell($colWidths[0], 6, mb_convert_encoding($funcionario['nome'], 'ISO-8859-1', 'UTF-8'), 1, 0, 'L', $fill);
+        $pdf->Cell($colWidths[1], 6, $funcionario['cpf'], 1, 0, 'L', $fill);
+        $pdf->Cell($colWidths[2], 6, $funcionario['rg'], 1, 0, 'L', $fill);
+        $pdf->Cell($colWidths[3], 6, mb_convert_encoding($funcionario['email'], 'ISO-8859-1', 'UTF-8'), 1, 0, 'L', $fill);
+        $pdf->Cell($colWidths[4], 6, $funcionario['id_empresa'], 1, 0, 'L', $fill);
+        $pdf->Ln();
+        $fill = !$fill;
+    }
+
+    // Output PDF
+    $pdf->Output();
+}
+
 }
 
 
@@ -112,7 +168,10 @@ if (isset($_GET['action'])) {
     if ($_GET['action'] == 'index') {
         $controller->index();
 
-    } elseif ($_GET['action'] == 'cadastro') {
+    } elseif ($_GET['action'] == 'exportpdf') {
+        $controller->exportpdf();
+
+     } elseif ($_GET['action'] == 'cadastro') {
         $controller->cadastro();
 
      } elseif ($_GET['action'] == 'edit') {

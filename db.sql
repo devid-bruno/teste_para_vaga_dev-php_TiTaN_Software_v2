@@ -24,12 +24,28 @@ CREATE TABLE IF NOT EXISTS `tbl_funcionario` (
     `id_empresa` INT NOT NULL,
     PRIMARY KEY (`id_funcionario`),
     FOREIGN KEY (`id_empresa`) REFERENCES `tbl_empresa`(`id_empresa`)
-)
+);
 
-INSERT INTO tbl_usuarios (login, senha) VALUES ('adm@adm.com', 'projeto')
+INSERT INTO tbl_usuarios (login, senha) VALUES ('adm@adm.com', 'projeto');
 
-INSERT INTO tbl_empresa (id_empresa, nome) VALUES (1, 'empresa 1')
+INSERT INTO tbl_empresa (id_empresa, nome) VALUES (1, 'empresa 1');
 
-INSERT INTO tbl_funcionario (id_funcionario, nome, cpf, rg, email, id_empresa) VALUES (1, 'funcionario 1', '12345678901', '123456789', 'func1@mail.com', 1)
+INSERT INTO tbl_funcionario (id_funcionario, nome, cpf, rg, email, id_empresa) VALUES (1, 'funcionario 1', '12345678901', '123456789', 'func1@mail.com', 1);
 
-SELECT * FROM tbl_usuarios
+SELECT * FROM tbl_usuarios;
+
+ALTER TABLE `tbl_funcionario`
+ADD COLUMN `data_cadastro` DATE NOT NULL DEFAULT '2023-01-01',
+ADD COLUMN `salario` DOUBLE(10, 2) NOT NULL,
+ADD COLUMN `bonificacao` DOUBLE(10, 2) NOT NULL;
+
+SELECT * FROM tbl_funcionario;
+
+INSERT INTO tbl_usuarios (login, senha) VALUES ('teste@gmail.com.br', '1234');
+
+SELECT * FROM tbl_usuarios;
+
+ALTER TABLE `tbl_usuarios`
+MODIFY COLUMN `senha` VARCHAR(32) NOT NULL;
+
+INSERT INTO tbl_usuarios (login, senha) VALUES ('teste@gmail.com.br', MD5('1234'));

@@ -10,6 +10,7 @@
     <h2>Total de empresa cadastradas: <?php echo $total_empresas ?></h2>
     <a href="../controller/loginController.php?action=logout">Logout</a>
     <a href="../controller/funcionarioController.php?action=index">Ver tabela de funcionários</a>
+    <a href="../controller/empresaController.php?action=listar">Exportar em PDF</a>
     <table class="table">
         <thead>
             <tr>

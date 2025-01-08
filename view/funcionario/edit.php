@@ -20,6 +20,12 @@
         <input type="text" id="rg" name="rg" value="<?php echo htmlspecialchars($funcionario['rg']); ?>" required><br><br>
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($funcionario['email']); ?>" required><br><br>
+        <label for="data_cadastro">Data Cadastro:</label>
+        <input type="date" id="data_cadastro" name="data_cadastro" value="<?php echo htmlspecialchars($funcionario['data_cadastro']); ?>" required><br><br>
+        <label for="salario">Salário:</label>
+        <input type="text" id="salario" name="salario" value="<?php echo htmlspecialchars($funcionario['salario']); ?>" required><br><br>
+        <label for="bonificacao">Bonificação:</label>
+        <input type="text" id="bonificacao" name="bonificacao" value="<?php echo htmlspecialchars($funcionario['bonificacao']); ?>" required><br><br>
         <label for="id_empresa">Empresa:</label>
         <select id="id_empresa" name="id_empresa" required>
             <option value="">Selecione uma empresa</option>

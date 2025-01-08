@@ -7,8 +7,7 @@ $db = $database->getConnection();
 class loginController {
     public function login() {
         $username = htmlspecialchars($_POST['login']);
-        $password = htmlspecialchars($_POST['senha']);
-
+        $password = md5(htmlspecialchars($_POST['senha']));
         if (!empty($username) && !empty($password)) {
             $query = "SELECT * FROM tbl_usuarios WHERE login = :username AND senha = :password";
             $stmt = $GLOBALS['db']->prepare($query);
