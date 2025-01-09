@@ -17,6 +17,9 @@ if (!isset($_SESSION['login'])) {
         .bonificado {
             background-color: #ADD8E6;
         }
+        .bonificacao5anos{
+            background-color: #FF6347;
+        }
     </style>
 </head>
 <body class="container">
@@ -55,12 +58,18 @@ if (!isset($_SESSION['login'])) {
 
                 // verifica tempo de funcionario ativo
                 $bonificado = false;
-                if ($intervalo->y >= 1) {
+                $classe_bonificacao = '';
+                if ($intervalo->y >= 5) {
+                    $bonificado = true;
+                    $funcionario['bonificacao'] = $funcionario['salario'] * 0.20; // 20% do salario
+                    $classe_bonificacao = 'bonificacao5anos';
+                } elseif ($intervalo->y >= 1) {
                     $bonificado = true;
                     $funcionario['bonificacao'] = $funcionario['salario'] * 0.10; // 10% do salario
+                    $classe_bonificacao = 'bonificado';
                 }
                 ?>
-                <tr class="<?php echo $bonificado ? 'bonificado' : ''; ?>">
+                <tr class="<?php echo $classe_bonificacao; ?>">
                     <td><?php echo htmlspecialchars($funcionario['nome']); ?></td>
                     <td><?php echo htmlspecialchars($funcionario['cpf']); ?></td>
                     <td><?php echo htmlspecialchars($funcionario['rg']); ?></td>

@@ -151,7 +151,7 @@ class funcionarioController {
         $pdf->Cell($colWidths[1], 6, $funcionario['cpf'], 1, 0, 'L', $fill);
         $pdf->Cell($colWidths[2], 6, $funcionario['rg'], 1, 0, 'L', $fill);
         $pdf->Cell($colWidths[3], 6, mb_convert_encoding($funcionario['email'], 'ISO-8859-1', 'UTF-8'), 1, 0, 'L', $fill);
-        $pdf->Cell($colWidths[4], 6, $funcionario['id_empresa'], 1, 0, 'L', $fill);
+        $pdf->Cell($colWidths[4], 6, $funcionario['nome_empresa'], 1, 0, 'L', $fill);
         $pdf->Ln();
         $fill = !$fill;
     }
